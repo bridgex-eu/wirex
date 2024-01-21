@@ -1,12 +1,14 @@
 package wirex
 
-import "path"
+import (
+	"net/url"
+)
 
 type RoutesGroup struct {
 	routes []*Route
 }
 
-func NewGroup() *RoutesGroup {
+func NewRoutesGroup() *RoutesGroup {
 	return &RoutesGroup{}
 }
 
@@ -29,7 +31,12 @@ func (g *RoutesGroup) With(key string, val any) {
 
 func (g *RoutesGroup) Group(pattern string, group *RoutesGroup, middlewares ...Middleware) {
 	for _, route := range group.routes {
-		route.pattern = path.Join(pattern, route.pattern)
+		pattern, err := url.JoinPath(pattern, route.pattern)
+		if err != nil {
+			panic(err)
+		}
+
+		route.pattern = pattern
 		route.middlewares = append(route.middlewares, middlewares...)
 		g.routes = append(g.routes, route)
 	}

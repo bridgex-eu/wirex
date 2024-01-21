@@ -15,7 +15,7 @@ type JsonData[T any] struct {
 var _ wirex.Writer = &JsonData[int]{}
 
 func (j *JsonData[T]) WriteResponse(w http.ResponseWriter, r *http.Request) {
-	setContentType(w, wirex.MIMEApplicationJSON)
+	SetContentType(w, wirex.MIMEApplicationJSON)
 
 	w.WriteHeader(j.Status)
 

@@ -56,7 +56,6 @@ func NewResponseWriter(w http.ResponseWriter) *ResponseWriter {
 
 // WriteHeader captures the status code and calls the original WriteHeader
 func (rw *ResponseWriter) WriteHeader(code int) {
-	slog.Info("Write header", "code", code)
 	rw.StatusCode = code
 	rw.ResponseWriter.WriteHeader(code)
 }

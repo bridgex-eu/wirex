@@ -5,19 +5,19 @@ import (
 	"testing"
 )
 
-func TestMethods(t *testing.T) {
-	tests := []string{
-		http.MethodOptions,
-		http.MethodGet,
-		http.MethodPost,
-		http.MethodPut,
-		http.MethodDelete,
-		http.MethodConnect,
-		http.MethodHead,
-		http.MethodPatch,
-		http.MethodTrace,
-	}
+var tests = []string{
+	http.MethodOptions,
+	http.MethodGet,
+	http.MethodPost,
+	http.MethodPut,
+	http.MethodDelete,
+	http.MethodConnect,
+	http.MethodHead,
+	http.MethodPatch,
+	http.MethodTrace,
+}
 
+func TestMethods(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test, func(t *testing.T) {
 			r := &Route{}
@@ -54,5 +54,17 @@ func TestMethods(t *testing.T) {
 			}
 
 		})
+	}
+}
+
+func TesnAny(t *testing.T) {
+	r := &Route{}
+
+	mockHandler := func(*http.Request) Writer { return nil }
+
+	r.Any(mockHandler)
+
+	if len(r.handlers) != len(tests) {
+		t.Errorf("expected %d handler for method Any, got %d", len(tests), len(r.handlers))
 	}
 }

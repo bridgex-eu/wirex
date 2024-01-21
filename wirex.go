@@ -59,7 +59,13 @@ func (e *Engine) FromRequest(r *http.Request) HTTPError {
 
 func (e *Engine) route(pattern string, handlers []MethodHandler, middlewares []Middleware) {
 	for _, handler := range handlers {
-		e.mux.Handle(handler.method+" "+pattern, applyMiddlewares(handler.handler, middlewares...))
+		route := pattern
+		// In the case of Any route
+		if handler.method != "" {
+			route = handler.method + " " + pattern
+		}
+
+		e.mux.Handle(route, applyMiddlewares(handler.handler, middlewares...))
 	}
 }
 
