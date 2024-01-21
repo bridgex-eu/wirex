@@ -91,7 +91,7 @@ func (r *Route) Patch(h HandlerFunc) *Route {
 // Trace adds a TRACE method handler to the Route.
 func (r *Route) Trace(h HandlerFunc) *Route {
 	r.handlers = append(r.handlers, MethodHandler{
-		method:  http.MethodPatch,
+		method:  http.MethodTrace,
 		handler: Handler(h),
 	})
 
